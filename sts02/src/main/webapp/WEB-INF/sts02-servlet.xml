@@ -26,7 +26,11 @@
 		<property name="supportedMethods" value="POST"></property>
 		<property name="commandClass" value="com.kpc.dept.model.DeptVo"></property>
 		<property name="commandName" value="bean"></property>
-		</bean>
+	</bean>
+	
+	<bean name="/dept/detail.kpc"
+		class="com.kpc.dept.controller.DetailController">
+	</bean>
 	
 	<!-- view resolver -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

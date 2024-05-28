@@ -10,7 +10,6 @@
 	<%@ include file="../template/menu.jspf" %>
 	<h1>입력페이지</h1>
 	<form action="add2.kpc" method="post">
-		<input type="text" name="deptno" value="11111">
 		<div>
 			<label for="dname">dname</label>
 			<input type="text" id="dname" name="dname"/>

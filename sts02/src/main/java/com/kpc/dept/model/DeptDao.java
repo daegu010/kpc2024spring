@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.h2.command.Prepared;
+
 public class DeptDao {
 	String driver="org.h2.Driver";
 	String url="jdbc:h2:tcp://localhost/~/test";
@@ -43,8 +45,9 @@ public class DeptDao {
 		return list;
 	}
 
-	public void save(String dname, String loc) throws SQLException {
+	public void save(String dname, String loc) throws SQLException, ClassNotFoundException {
 		String sql="insert into dept (dname,loc) values (?,?)";
+		Class.forName(driver);
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		try {
@@ -57,6 +60,31 @@ public class DeptDao {
 			if(pstmt!=null)pstmt.close();
 			if(conn!=null)conn.close();
 		}
+	}
+
+	public DeptVo find(int deptno) throws ClassNotFoundException, SQLException {
+		String sql="select * from dept where deptno=?";
+		DeptVo bean=new DeptVo();
+		Class.forName(driver);
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			conn=DriverManager.getConnection(url, user, password);
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, deptno);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				bean.setDeptno(deptno);
+				bean.setDname(rs.getString("dname"));
+				bean.setLoc(rs.getString("loc"));
+			}
+		}finally {
+			if(rs!=null)rs.close();
+			if(pstmt!=null)pstmt.close();
+			if(conn!=null)conn.close();
+		}
+		return bean;
 	}
 
 }
