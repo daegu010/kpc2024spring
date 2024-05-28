@@ -9,12 +9,16 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.kpc.dept.model.DeptDao;
 
 public class DetailController implements Controller {
+	DeptDao deptDao;
+
+	public void setDao(DeptDao deptDao) {
+		this.deptDao = deptDao;
+	}
 
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int deptno=Integer.parseInt(request.getParameter("deptno"));
-		DeptDao dao=new DeptDao();
-		return new ModelAndView("dept/detail","bean",dao.find(deptno));
+		return new ModelAndView("dept/detail","bean",deptDao.find(deptno));
 	}
 
 }

@@ -12,6 +12,11 @@ import com.kpc.dept.model.DeptDao;
 import com.kpc.dept.model.DeptVo;
 
 public class AddController extends SimpleFormController {
+	DeptDao deptDao;
+
+	public void setDao(DeptDao deptDao) {
+		this.deptDao = deptDao;
+	}
 	
 	@Override
 	protected void onBindAndValidate(HttpServletRequest request
@@ -36,9 +41,8 @@ public class AddController extends SimpleFormController {
 			mav.setViewName("redirect:add.kpc");
 			return mav;
 		}
-		DeptDao dao=new DeptDao();
 		DeptVo bean=(DeptVo) command;
-		dao.save(bean.getDname(), bean.getLoc());
+		deptDao.save(bean.getDname(), bean.getLoc());
 		
 		mav.setViewName("redirect:/dept/list.kpc");
 		return mav;

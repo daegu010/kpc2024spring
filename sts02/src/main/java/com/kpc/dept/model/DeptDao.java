@@ -1,25 +1,22 @@
 package com.kpc.dept.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.Driver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.h2.jdbcx.JdbcDataSource;
-
-import com.kpc.template.JdbcTemplate;
-import com.kpc.template.RowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 public class DeptDao {
-//	DataSource dataSource;
-	JdbcTemplate<DeptVo> template=new JdbcTemplate<DeptVo>();
+
 	RowMapper<DeptVo> mapper=new RowMapper<DeptVo>() {
 		
 		@Override
-		public DeptVo row(ResultSet rs) throws SQLException {
+		public DeptVo mapRow(ResultSet rs, int rowNum) throws SQLException {
 			DeptVo bean=new DeptVo();
 			bean.setDeptno(rs.getInt("deptno"));
 			bean.setDname(rs.getString("dname"));
@@ -27,16 +24,13 @@ public class DeptDao {
 			return bean;
 		}
 	};
+	JdbcTemplate template;
 	
-	public DeptDao() {
-		JdbcDataSource dataSource=new JdbcDataSource();
-		dataSource.setUrl("jdbc:h2:tcp://localhost/~/test");
-		dataSource.setUser("sa");
-		dataSource.setPassword("");
-		template.setDataSource(dataSource);
+	public void setTemplate(JdbcTemplate template) {
+		this.template = template;
 	}
 	
-	public List<DeptVo> findAll() throws ClassNotFoundException, SQLException{
+	public List<DeptVo> findAll() throws SQLException{
 		String sql="select * from dept order by deptno desc";
 		return template.query(sql,mapper);
 	}
@@ -46,12 +40,12 @@ public class DeptDao {
 		return template.update(sql,deptno);
 	}
 
-	public void save(String dname, String loc) throws SQLException, ClassNotFoundException {
+	public void save(String dname, String loc) throws SQLException{
 		String sql="insert into dept (dname,loc) values (?,?)";
 		template.update(sql,dname,loc);
 	}
 
-	public DeptVo find(int deptno) throws ClassNotFoundException, SQLException {
+	public DeptVo find(int deptno) throws SQLException {
 		String sql="select * from dept where deptno=?";
 		return template.queryForObject(sql,mapper, deptno);
 	}
