@@ -5,9 +5,28 @@
 
 	<!-- handler mapping -->
 	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
-	<bean name="/index.kpc" class="com.kpc.controller.IndexController"></bean>
-	<bean name="/intro.kpc" class="com.kpc.controller.IntroController"></bean>
-	<bean name="/dept/list.kpc" class="com.kpc.dept.controller.ListController"></bean>
+	
+	<bean name="/index.kpc" 
+		class="com.kpc.controller.IndexController"></bean>
+	
+	<bean name="/intro.kpc" 
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="intro"></property>
+	</bean>
+	
+	<bean name="/dept/list.kpc" 
+		class="com.kpc.dept.controller.ListController"></bean>
+	
+	<bean name="/dept/add.kpc" 
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="dept/add"></property>
+	</bean>
+	<bean name="/dept/add2.kpc"
+		class="com.kpc.dept.controller.AddController">
+		<property name="supportedMethods" value="POST"></property>
+		<property name="commandClass" value="com.kpc.dept.model.DeptVo"></property>
+		<property name="commandName" value="bean"></property>
+		</bean>
 	
 	<!-- view resolver -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

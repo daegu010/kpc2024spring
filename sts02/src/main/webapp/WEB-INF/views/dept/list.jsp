@@ -28,6 +28,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<a href="add.kpc">입력</a>
 </body>
 </html>
 

@@ -17,24 +17,59 @@ public class DeptDao {
 	String password="";
 	
 	public List<?> findAll() throws ClassNotFoundException, SQLException{
-		List<Map<String,String>> list=new ArrayList<>();
-		String sql="select * from dept order by deptno";
+		List<DeptVo> list=new ArrayList<>();
+		String sql="select * from dept order by deptno desc";
 		Class.forName(driver);
-		try(
-				Connection conn=DriverManager.getConnection(url, user, password);
-				PreparedStatement pstmt=conn.prepareStatement(sql);
-				ResultSet rs=pstmt.executeQuery();
-				){
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try{
+			conn=DriverManager.getConnection(url, user, password);
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
 			while(rs.next()) {
-				Map<String,String> map=new HashMap<>();
-				map.put("deptno", rs.getString("deptno"));
-				map.put("dname", rs.getString("dname"));
-				map.put("loc", rs.getString("loc"));
-				list.add(map);
+				DeptVo bean=new DeptVo();
+				bean.setDeptno(rs.getInt("deptno"));
+				bean.setDname(rs.getString("dname"));
+				bean.setLoc(rs.getString("loc"));
+				list.add(bean);
 			}
+		}finally {
+			if(rs!=null)rs.close();
+			if(pstmt!=null)pstmt.close();
+			if(conn!=null)conn.close();
 		}
 		
 		return list;
 	}
 
+	public void save(String dname, String loc) throws SQLException {
+		String sql="insert into dept (dname,loc) values (?,?)";
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		try {
+			conn=DriverManager.getConnection(url, user, password);
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dname);
+			pstmt.setString(2, loc);
+			pstmt.executeUpdate();
+		}finally {
+			if(pstmt!=null)pstmt.close();
+			if(conn!=null)conn.close();
+		}
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
