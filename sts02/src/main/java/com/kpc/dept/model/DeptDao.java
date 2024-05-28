@@ -10,13 +10,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.h2.command.Prepared;
+import org.h2.jdbcx.JdbcDataSource;
+
+import com.kpc.template.JdbcTemplate2;
 
 public class DeptDao {
+	DataSource dataSource;
 	String driver="org.h2.Driver";
 	String url="jdbc:h2:tcp://localhost/~/test";
 	String user="sa";
 	String password="";
+	
+	public DeptDao() {
+		JdbcDataSource dataSource=new JdbcDataSource();
+		dataSource.setUrl("jdbc:h2:tcp://localhost/~/test");
+		dataSource.setUser("sa");
+		dataSource.setPassword("");
+		this.dataSource=dataSource;
+	}
+	
+	public void close(Connection conn, PreparedStatement pstmt,ResultSet rs) throws SQLException {
+		if(rs!=null)rs.close();
+		if(pstmt!=null)pstmt.close();
+		if(conn!=null)conn.close();
+	}
 	
 	public List<?> findAll() throws ClassNotFoundException, SQLException{
 		List<DeptVo> list=new ArrayList<>();
@@ -37,29 +57,22 @@ public class DeptDao {
 				list.add(bean);
 			}
 		}finally {
-			if(rs!=null)rs.close();
-			if(pstmt!=null)pstmt.close();
-			if(conn!=null)conn.close();
+			close(conn,pstmt,rs);
 		}
 		
 		return list;
 	}
+	
+	public int delete(int deptno) throws SQLException {
+		String sql="delete from dept where deptno=?";
+		JdbcTemplate2 template=new JdbcTemplate2(dataSource);;
+		return template.update(sql,new Object[]{deptno});
+	}
 
 	public void save(String dname, String loc) throws SQLException, ClassNotFoundException {
 		String sql="insert into dept (dname,loc) values (?,?)";
-		Class.forName(driver);
-		Connection conn=null;
-		PreparedStatement pstmt=null;
-		try {
-			conn=DriverManager.getConnection(url, user, password);
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, dname);
-			pstmt.setString(2, loc);
-			pstmt.executeUpdate();
-		}finally {
-			if(pstmt!=null)pstmt.close();
-			if(conn!=null)conn.close();
-		}
+		JdbcTemplate2 template = new JdbcTemplate2(dataSource);
+		template.update(sql,new Object[] {dname,loc});
 	}
 
 	public DeptVo find(int deptno) throws ClassNotFoundException, SQLException {
@@ -80,9 +93,7 @@ public class DeptDao {
 				bean.setLoc(rs.getString("loc"));
 			}
 		}finally {
-			if(rs!=null)rs.close();
-			if(pstmt!=null)pstmt.close();
-			if(conn!=null)conn.close();
+			close(conn,pstmt,rs);
 		}
 		return bean;
 	}
