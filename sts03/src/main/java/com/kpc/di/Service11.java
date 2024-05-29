@@ -18,7 +18,7 @@ public class Service11 {
 	public void running01(){
 		System.out.println("running01...before");
 		int su=1;
-		if(su==1) throw new RuntimeException();
+		if(su==1) throw new RuntimeException("내가 던진 메시지");
 		System.out.println("running01...after");
 		
 	}

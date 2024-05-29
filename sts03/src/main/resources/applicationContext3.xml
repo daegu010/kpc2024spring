@@ -8,19 +8,40 @@
 	<bean id="methodBeforeAdvice" class="com.kpc.aop.KpcBefore"></bean>
 	<bean id="afterReturningAdvice" class="com.kpc.aop.KpcAfterSuccess"></bean>
 	<bean id="throwsAdvice" class="com.kpc.aop.KpcAfterErr"></bean>
+	<bean id="methodInterceptor" class="com.kpc.aop.KpcRound"></bean>
+	<!-- 
+	<bean id="pointcut"
+	 class="org.springframework.aop.support.NameMatchMethodPointcut">
+	 	<property name="mappedNames" value="func02,func01"></property>
+	 </bean>
+	  -->
+	<bean id="pointcut"
+	 class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+	 	<property name="pattern" value=".*func.*"></property>
+	 </bean>
+	 
+	<bean id="pointcutAdvisor" 
+	class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut"></property>
+		<property name="advice" ref="methodBeforeAdvice"></property>
+	</bean>
 	
 	<bean id="clone11" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target" ref="serv11"></property>
 		<property name="interceptorNames">
 			<list>
-				<value>afterReturningAdvice</value>
-				<value>throwsAdvice</value>
+				<value>pointcutAdvisor</value>
+				<!-- 
 				<value>methodBeforeAdvice</value>
+				<value>methodInterceptor</value> 
+				<value>throwsAdvice</value>
+				<value>afterReturningAdvice</value>
+				-->
 			</list>
 		</property>
 	</bean>
-	<!-- 
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
+	<!-- 
 	 -->
 </beans>
 
