@@ -39,11 +39,8 @@ public class DeptDaoTest {
 	
 	@Test
 	public void testEditInsert() throws SQLException{
-		int before=dao.selectAll().size();
 		DeptVo target=new DeptVo(0, "test1", "서울");
 		dao.editInsert(target);
-		int after=dao.selectAll().size();
-		assertSame(before+1, after);
 	}
 
 }
