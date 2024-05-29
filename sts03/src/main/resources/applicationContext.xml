@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="module01" class="com.kpc.di.Module01"></bean>
+	<bean id="module02" class="com.kpc.di.Module02"></bean>
+	<bean id="module03" class="com.kpc.di.Module03"></bean>
+	
+	<bean id="service" class="com.kpc.di.Service01">
+		<constructor-arg ref="module03"/>
+	</bean>
+
+	<bean id="serv2" class="com.kpc.di.Service02">
+		<!-- 
+		<property name="su1" value="1234"></property>
+		<property name="su2" value="3.14"></property>
+		<property name="boo" value="true"></property>
+		<property name="msg" value="ABCDabcd"></property>
+		 -->
+		 
+		<property name="su1"><value>4321</value></property>
+		<property name="su2"><value>3.14</value></property>
+		<property name="boo" ><value>true</value></property>
+		<property name="msg" ><value>ABCDabcd</value></property>
+	</bean>
+	
+	<bean id="serv03" class="com.kpc.di.Service01">
+		<property name="module">
+			<ref bean="module03"/>
+		</property>
+	</bean>
+	
+	<bean id="service03" class="com.kpc.di.Service03">
+		<property name="arr1">
+			<array>
+				<value>1</value>
+				<value>3</value>
+				<value>5</value>
+				<value>7</value>
+			</array>
+		</property>
+		<property name="arr2">
+			<array>
+				<value>1</value>
+				<value>3</value>
+				<value>5</value>
+				<value>7</value>
+			</array>
+		</property>
+		<property name="arr3">
+			<set>
+				<value>6</value>
+				<value>1</value>
+				<value>4</value>
+				<value>1</value>
+			</set>
+		</property>
+		<property name="map1">
+			<map>
+				<entry key="key1"><ref bean="module01"/></entry>
+				<entry key="key2"><ref bean="module02"/></entry>
+				<entry key="key3"><ref bean="module03"/></entry>
+			</map>
+		</property>
+		<property name="map2">
+			<props>
+				<prop key="k1">v1</prop>
+				<prop key="k2">v2</prop>
+				<prop key="k3">v3</prop>
+			</props>
+		</property>
+	</bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
