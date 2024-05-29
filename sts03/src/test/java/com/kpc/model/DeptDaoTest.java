@@ -30,6 +30,21 @@ public class DeptDaoTest {
 			System.out.println(bean);
 		}
 	}
+	
+	@Test
+	public void testSelectOne() throws SQLException{
+		DeptVo target=new DeptVo(6, "김길동", "서울");
+		assertEquals(target, dao.selectOne(target.getDeptno()));
+	}
+	
+	@Test
+	public void testEditInsert() throws SQLException{
+		int before=dao.selectAll().size();
+		DeptVo target=new DeptVo(0, "test1", "서울");
+		dao.editInsert(target);
+		int after=dao.selectAll().size();
+		assertSame(before+1, after);
+	}
 
 }
 

@@ -28,12 +28,14 @@ public class DeptDaoImpl extends JdbcDaoSupport implements DeptDao<DeptVo> {
 
 	@Override
 	public DeptVo selectOne(int pk) throws SQLException {
-		return null;
+		String sql="select * from dept where deptno=?";
+		return getJdbcTemplate().queryForObject(sql, rowMapper,pk);
 	}
 
 	@Override
 	public void editInsert(DeptVo t) throws SQLException {
-		
+		String sql="insert into dept (dname,loc) values (?,?)";
+		getJdbcTemplate().update(sql,t.getDname(),t.getLoc());
 	}
 
 	@Override
