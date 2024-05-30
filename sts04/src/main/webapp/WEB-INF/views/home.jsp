@@ -1,15 +1,16 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Home</title>
-	<meta charset="utf-8">
+<meta charset="UTF-8">
+<title>index</title>
+<%@ include file="template/header.jspf" %>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
-
-<P>  The time on the server is ${serverTime}. </P>
+<%@ include file="template/menu.jspf" %>
+<p class="text-center">
+<img alt="" src="https://picsum.photos/600/300">
+</p>
 </body>
 </html>

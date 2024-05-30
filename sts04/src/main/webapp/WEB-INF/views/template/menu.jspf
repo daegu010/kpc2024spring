@@ -1,0 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<c:url value="/" var="root"/>
+	<div class="well well-lg">
+		<a href="${root }">HOME</a>
+		<a href="${root }intro">INTRO</a>
+		<a href="${root }dept/">DEPT</a>
+	</div>

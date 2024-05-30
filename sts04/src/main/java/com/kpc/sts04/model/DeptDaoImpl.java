@@ -33,13 +33,13 @@ public class DeptDaoImpl implements DeptDao<DeptVo> {
 	@Override
 	public DeptVo select(int pk) {
 		String sql="select * from dept where deptno=?";
-		return null;
+		return jdbcTemplate.queryForObject(sql, rowMapper,pk);
 	}
 
 	@Override
 	public void insertOne(DeptVo t) {
-		String sql="insert into dept (dname,loc) from (?,?)";
-
+		String sql="insert into dept (dname,loc) values (?,?)";
+		jdbcTemplate.update(sql,t.getDname(),t.getLoc());
 	}
 
 	@Override
