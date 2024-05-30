@@ -45,13 +45,13 @@ public class DeptDaoImpl implements DeptDao<DeptVo> {
 	@Override
 	public int updateOne(DeptVo t) {
 		String sql="update dept set dname=?,loc=? where deptno=?";
-		return 0;
+		return jdbcTemplate.update(sql,t.getDname(),t.getLoc(),t.getDeptno());
 	}
 
 	@Override
 	public int deleteOne(int pk) {
 		String sql="delete from dept where deptno=?";
-		return 0;
+		return jdbcTemplate.update(sql,pk);
 	}
 
 }

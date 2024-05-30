@@ -24,18 +24,24 @@
 	    <input type="text" class="form-control" value="${bean.loc }" name="loc" id="loc" placeholder="loc" readonly>
 	</div>
 	<button type="button" class="btn btn-primary">수정</button>
+	<button type="button" class="btn btn-danger">삭제</button>
 	<button type="submit" class="btn btn-primary">수정</button>
 	<button type="reset" class="btn btn-default">취소</button>
 	
 </form>
 <script type="text/javascript">
-$('form button').eq(1).hide();
 $('form button').eq(2).hide();
+$('form button').eq(3).hide();
 $('form button').eq(0).click(function(){
 	$('form input').removeProp("readonly");
-	$(this).css('display','none');
-	$('form button').eq(1).show();
+	$(this).css('display','none').next().css('display','none');
 	$('form button').eq(2).show();
+	$('form button').eq(3).show();
+})
+.next()
+.click(function(){
+	$('form input').eq(0).val('delete');
+	$('form').submit();
 });
 
 </script>
