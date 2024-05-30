@@ -7,10 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Repository
 public class DeptDaoImpl implements DeptDao<DeptVo> {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
