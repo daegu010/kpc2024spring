@@ -62,6 +62,7 @@
 		p:mapperLocations="classpath:/mapper/deptMapper.xml"
 		-->
 		
+	<!-- 
 	<bean id="sqlSession"
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory"/>		
@@ -71,8 +72,24 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:dataSource-ref="dataSource"
 	/>
-	
 	<mybatis-spring:scan base-package="com.kpc.sts05.model"/>
+	 -->
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+	/>
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:jpaVendorAdapter-ref="jpaVendorAdapter"
+		p:packagesToScan="com.kpc.sts05.model"
+	>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+			</props>
+		</property>
+	</bean>
+	 
 	<aop:aspectj-autoproxy/>
 	<!-- <context:component-scan base-package="com.kpc.sts05"/> -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
