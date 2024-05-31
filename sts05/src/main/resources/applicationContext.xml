@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- 
+	<bean id="module" class="com.kpc.sts05.model.ModuleImpl"/>
+	<bean id="moduleService" class="com.kpc.sts05.service.ModuleService"/>
+	
+	<bean id="beforeAdvice" class="com.kpc.sts05.aop.ModuleBefore"/>
+	<bean id="returnAdvice" class="com.kpc.sts05.aop.ModuleAfter"/>
+	<bean id="aroundAdvice" class="com.kpc.sts05.aop.ModuleAround"/>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.kpc.sts05.model.Module.*01(..))" id="m1"/>
+		<aop:aspect ref="aroundAdvice">
+			<aop:around method="around" pointcut-ref="m1"/>
+		</aop:aspect>
+		<aop:aspect ref="beforeAdvice">
+			<aop:before method="before2" pointcut-ref="m1"/>
+		</aop:aspect>
+		<aop:aspect ref="returnAdvice">
+			<aop:after-returning returning="msg" method="afterReturn" pointcut-ref="m1"/>
+		</aop:aspect>
+		<aop:aspect ref="returnAdvice">
+			<aop:after-throwing throwing="e" method="afterErr" pointcut-ref="m1"/>
+		</aop:aspect>
+		<aop:advisor advice-ref="before1" pointcut-ref="m1"/> 
+	</aop:config>
+	-->
+	
+	<bean
+		id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="org.h2.Driver"
+		p:url="jdbc:h2:tcp://localhost/~/test"
+		p:username="sa"
+		p:password=""
+	/>
+	
+	<bean 
+		id="jdbcTemplate" 
+		class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="dataSource"
+	/>
+	
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean"	
+		p:dataSource-ref="dataSource"
+	/>
+		<!-- 
+		p:configLocation="classpath:/mybatis-config.xml" 
+		p:mapperLocations="classpath:/mapper/deptMapper.xml"
+		-->
+		
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>		
+	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource"
+	/>
+	
+	<mybatis-spring:scan base-package="com.kpc.sts05.model"/>
+	<aop:aspectj-autoproxy/>
+	<context:component-scan base-package="com.kpc.sts05"/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
